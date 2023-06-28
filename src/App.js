@@ -278,38 +278,38 @@ import { useState, useMemo } from 'react';
 //   }
 // ]
 
-const data2=[
-  // {
-  //   "country": "AD",
-  //   "hot dog": 122,
-  //   "burger": 7,
+// const data2=[
+//   // {
+//   //   "country": "AD",
+//   //   "hot dog": 122,
+//   //   "burger": 7,
 
-  //   "sandwich": 158,
+//   //   "sandwich": 158,
 
-  //   "kebab": 78,
+//   //   "kebab": 78,
 
-  //   "fries": 20,
+//   //   "fries": 20,
 
-  //   "donut": 25,
+//   //   "donut": 25,
 
-  // },
-  {
-    "country": "AE",
-    "hot dog": 122,
+//   // },
+//   {
+//     "country": "AE",
+//     "hot dog": 122,
 
-    "burger": 33,
+//     "burger": 33,
 
-    "sandwich": 169,
+//     "sandwich": 169,
 
-    "kebab": 160,
+//     "kebab": 160,
  
-    "fries": 40,
+//     "fries": 40,
  
-    "donut": 108,
+//     "donut": 108,
     
-  },
+//   },
   
-]
+// ]
 const data =[
   {
     "group": "Alpha",
@@ -2185,6 +2185,47 @@ function App() {
       ]
     }
   ])
+  const [data2, setData2]= useState([
+    // {
+    //   "country": "AD",
+    //   "hot dog": 122,
+    //   "burger": 7,
+  
+    //   "sandwich": 158,
+  
+    //   "kebab": 78,
+  
+    //   "fries": 20,
+  
+    //   "donut": 25,
+  
+    // },
+    {
+      "country": "AE",
+      "hot dog": 122,
+  
+      "burger": 33,
+  
+      "sandwich": 169,
+  
+      "kebab": 160,
+   
+      "fries": 40,
+   
+      "donut": 108,
+      
+    },
+    
+  ])
+  const [key2, setKey2]= useState([
+    'hot dog',
+    'burger',
+    'sandwich',
+    'kebab',
+    'fries',
+    'donut'
+])
+const [indexBy, setIndexBy]= useState({'index':'country'})
   const handleData3 = () =>{
     fetch("http://127.0.0.1:5000/country")
     .then(function (response) {
@@ -2196,9 +2237,26 @@ function App() {
       setData3(myJson)
     });
   }
+
+
+
+  const handleData2 = () =>{
+    fetch("http://127.0.0.1:5000/countryBar")
+    .then(function (response) {
+      return response.json()
+      
+    })
+    .then(function (myJson) {
+      console.log(myJson)
+      setData2(myJson.data)
+      setKey2(myJson.keys)
+      setIndexBy({index:myJson.indexBy})
+    });
+  }
   return (
     <>
-    <button onClick={handleData3}>test</button>
+    <button onClick={handleData3}>test3</button>
+    <button onClick={handleData2}>test2</button>
     <ResponsiveBoxPlot
         data={data}
         margin={{ top: 60, right: 140, bottom: 60, left: 60 }}
@@ -2297,15 +2355,8 @@ function App() {
     />
     <ResponsiveBar
         data={data2}
-        keys={[
-            'hot dog',
-            'burger',
-            'sandwich',
-            'kebab',
-            'fries',
-            'donut'
-        ]}
-        indexBy="country"
+        keys={key2}
+        indexBy={indexBy.index}
         margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
         padding={0.3}
         valueScale={{ type: 'linear' }}
@@ -2330,20 +2381,6 @@ function App() {
                 rotation: -45,
                 lineWidth: 6,
                 spacing: 10
-            }
-        ]}
-        fill={[
-            {
-                match: {
-                    id: 'fries'
-                },
-                id: 'dots'
-            },
-            {
-                match: {
-                    id: 'sandwich'
-                },
-                id: 'lines'
             }
         ]}
         borderColor={{
