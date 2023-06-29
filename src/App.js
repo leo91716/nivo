@@ -1,315 +1,12 @@
 import logo from './logo.svg';
 import './App.css';
 import { ResponsiveBoxPlot } from '@nivo/boxplot'
-import { ResponsiveBar } from '@nivo/bar'
-import { ResponsiveLine } from '@nivo/line'
 import { useState, useMemo } from 'react';
+import BarChart from './components/BarChart';
+import LineChart from './components/LineChart';
 
-// const data3=[
-//   {
-//     "id": "japan",
-//     "color": "hsl(270, 70%, 50%)",
-//     "data": [
-//       {
-//         "x": "plane",
-//         "y": 53
-//       },
-//       {
-//         "x": "helicopter",
-//         "y": 287
-//       },
-//       {
-//         "x": "boat",
-//         "y": 228
-//       },
-//       {
-//         "x": "train",
-//         "y": 228
-//       },
-//       {
-//         "x": "subway",
-//         "y": 296
-//       },
-//       {
-//         "x": "bus",
-//         "y": 220
-//       },
-//       {
-//         "x": "car",
-//         "y": 89
-//       },
-//       {
-//         "x": "moto",
-//         "y": 110
-//       },
-//       {
-//         "x": "bicycle",
-//         "y": 15
-//       },
-//       {
-//         "x": "horse",
-//         "y": 219
-//       },
-//       {
-//         "x": "skateboard",
-//         "y": 254
-//       },
-//       {
-//         "x": "others",
-//         "y": 106
-//       }
-//     ]
-//   },
-//   {
-//     "id": "france",
-//     "color": "hsl(177, 70%, 50%)",
-//     "data": [
-//       {
-//         "x": "plane",
-//         "y": 114
-//       },
-//       {
-//         "x": "helicopter",
-//         "y": 161
-//       },
-//       {
-//         "x": "boat",
-//         "y": 157
-//       },
-//       {
-//         "x": "train",
-//         "y": 25
-//       },
-//       {
-//         "x": "subway",
-//         "y": 112
-//       },
-//       {
-//         "x": "bus",
-//         "y": 202
-//       },
-//       {
-//         "x": "car",
-//         "y": 93
-//       },
-//       {
-//         "x": "moto",
-//         "y": 90
-//       },
-//       {
-//         "x": "bicycle",
-//         "y": 158
-//       },
-//       {
-//         "x": "horse",
-//         "y": 31
-//       },
-//       {
-//         "x": "skateboard",
-//         "y": 271
-//       },
-//       {
-//         "x": "others",
-//         "y": 152
-//       }
-//     ]
-//   },
-//   {
-//     "id": "us",
-//     "color": "hsl(213, 70%, 50%)",
-//     "data": [
-//       {
-//         "x": "plane",
-//         "y": 52
-//       },
-//       {
-//         "x": "helicopter",
-//         "y": 226
-//       },
-//       {
-//         "x": "boat",
-//         "y": 67
-//       },
-//       {
-//         "x": "train",
-//         "y": 213
-//       },
-//       {
-//         "x": "subway",
-//         "y": 182
-//       },
-//       {
-//         "x": "bus",
-//         "y": 18
-//       },
-//       {
-//         "x": "car",
-//         "y": 222
-//       },
-//       {
-//         "x": "moto",
-//         "y": 44
-//       },
-//       {
-//         "x": "bicycle",
-//         "y": 4
-//       },
-//       {
-//         "x": "horse",
-//         "y": 246
-//       },
-//       {
-//         "x": "skateboard",
-//         "y": 142
-//       },
-//       {
-//         "x": "others",
-//         "y": 95
-//       }
-//     ]
-//   },
-//   {
-//     "id": "germany",
-//     "color": "hsl(274, 70%, 50%)",
-//     "data": [
-//       {
-//         "x": "plane",
-//         "y": 154
-//       },
-//       {
-//         "x": "helicopter",
-//         "y": 200
-//       },
-//       {
-//         "x": "boat",
-//         "y": 32
-//       },
-//       {
-//         "x": "train",
-//         "y": 229
-//       },
-//       {
-//         "x": "subway",
-//         "y": 117
-//       },
-//       {
-//         "x": "bus",
-//         "y": 8
-//       },
-//       {
-//         "x": "car",
-//         "y": 207
-//       },
-//       {
-//         "x": "moto",
-//         "y": 296
-//       },
-//       {
-//         "x": "bicycle",
-//         "y": 60
-//       },
-//       {
-//         "x": "horse",
-//         "y": 62
-//       },
-//       {
-//         "x": "skateboard",
-//         "y": 72
-//       },
-//       {
-//         "x": "others",
-//         "y": 167
-//       }
-//     ]
-//   },
-//   {
-//     "id": "norway",
-//     "color": "hsl(317, 70%, 50%)",
-//     "data": [
-//       {
-//         "x": "plane",
-//         "y": 240
-//       },
-//       {
-//         "x": "helicopter",
-//         "y": 121
-//       },
-//       {
-//         "x": "boat",
-//         "y": 288
-//       },
-//       {
-//         "x": "train",
-//         "y": 23
-//       },
-//       {
-//         "x": "subway",
-//         "y": 135
-//       },
-//       {
-//         "x": "bus",
-//         "y": 240
-//       },
-//       {
-//         "x": "car",
-//         "y": 136
-//       },
-//       {
-//         "x": "moto",
-//         "y": 161
-//       },
-//       {
-//         "x": "bicycle",
-//         "y": 184
-//       },
-//       {
-//         "x": "horse",
-//         "y": 109
-//       },
-//       {
-//         "x": "skateboard",
-//         "y": 253
-//       },
-//       {
-//         "x": "others",
-//         "y": 94
-//       }
-//     ]
-//   }
-// ]
 
-// const data2=[
-//   // {
-//   //   "country": "AD",
-//   //   "hot dog": 122,
-//   //   "burger": 7,
 
-//   //   "sandwich": 158,
-
-//   //   "kebab": 78,
-
-//   //   "fries": 20,
-
-//   //   "donut": 25,
-
-//   // },
-//   {
-//     "country": "AE",
-//     "hot dog": 122,
-
-//     "burger": 33,
-
-//     "sandwich": 169,
-
-//     "kebab": 160,
- 
-//     "fries": 40,
- 
-//     "donut": 108,
-    
-//   },
-  
-// ]
 const data =[
   {
     "group": "Alpha",
@@ -1913,7 +1610,10 @@ const data =[
   }
 ]
 function App() {
-  const [data3, setData3]= useState([
+  const [data3, setData3]= useState({
+    x:'transportation','y':'count',
+
+    data:[
     {
       "id": "japan",
       "color": "hsl(270, 70%, 50%)",
@@ -2184,22 +1884,18 @@ function App() {
         }
       ]
     }
-  ])
-  const [data2, setData2]= useState([
-    // {
-    //   "country": "AD",
-    //   "hot dog": 122,
-    //   "burger": 7,
-  
-    //   "sandwich": 158,
-  
-    //   "kebab": 78,
-  
-    //   "fries": 20,
-  
-    //   "donut": 25,
-  
-    // },
+  ]})
+  const [data2, setData2]= useState({
+    keys:[
+      'hot dog',
+      'burger',
+      'sandwich',
+      'kebab',
+      'fries',
+      'donut'
+  ],
+  y:'food'
+    ,x:'country',data:[
     {
       "country": "AE",
       "hot dog": 122,
@@ -2216,47 +1912,27 @@ function App() {
       
     },
     
-  ])
-  const [key2, setKey2]= useState([
-    'hot dog',
-    'burger',
-    'sandwich',
-    'kebab',
-    'fries',
-    'donut'
-])
-const [indexBy, setIndexBy]= useState({'index':'country'})
-  const handleData3 = () =>{
-    fetch("http://127.0.0.1:5000/country")
+  ]})
+  
+
+
+  const getData = (url,setData) =>{
+    fetch(url)
     .then(function (response) {
       return response.json()
       
     })
     .then(function (myJson) {
       console.log(myJson)
-      setData3(myJson)
+      setData(myJson)
     });
   }
 
 
-
-  const handleData2 = () =>{
-    fetch("http://127.0.0.1:5000/countryBar")
-    .then(function (response) {
-      return response.json()
-      
-    })
-    .then(function (myJson) {
-      console.log(myJson)
-      setData2(myJson.data)
-      setKey2(myJson.keys)
-      setIndexBy({index:myJson.indexBy})
-    });
-  }
   return (
     <>
-    <button onClick={handleData3}>test3</button>
-    <button onClick={handleData2}>test2</button>
+    <button onClick={()=>(getData("http://127.0.0.1:5000/country",setData3))}>test3</button>
+    <button onClick={()=>(getData("http://127.0.0.1:5000/countryBar",setData2))}>test2</button>
     <ResponsiveBoxPlot
         data={data}
         margin={{ top: 60, right: 140, bottom: 60, left: 60 }}
@@ -2353,164 +2029,8 @@ const [indexBy, setIndexBy]= useState({'index':'country'})
             }
         ]}
     />
-    <ResponsiveBar
-        data={data2}
-        keys={key2}
-        indexBy={indexBy.index}
-        margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
-        padding={0.3}
-        valueScale={{ type: 'linear' }}
-        indexScale={{ type: 'band', round: true }}
-        colors={{ scheme: 'nivo' }}
-        groupMode="grouped"
-        defs={[
-            {
-                id: 'dots',
-                type: 'patternDots',
-                background: 'inherit',
-                color: '#38bcb2',
-                size: 4,
-                padding: 1,
-                stagger: true
-            },
-            {
-                id: 'lines',
-                type: 'patternLines',
-                background: 'inherit',
-                color: '#eed312',
-                rotation: -45,
-                lineWidth: 6,
-                spacing: 10
-            }
-        ]}
-        borderColor={{
-            from: 'color',
-            modifiers: [
-                [
-                    'darker',
-                    1.6
-                ]
-            ]
-        }}
-        axisTop={null}
-        axisRight={null}
-        axisBottom={{
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 0,
-            legend: 'country',
-            legendPosition: 'middle',
-            legendOffset: 32
-        }}
-        axisLeft={{
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 0,
-            legend: 'food',
-            legendPosition: 'middle',
-            legendOffset: -40
-        }}
-        labelSkipWidth={12}
-        labelSkipHeight={12}
-        labelTextColor={{
-            from: 'color',
-            modifiers: [
-                [
-                    'darker',
-                    1.6
-                ]
-            ]
-        }}
-        legends={[
-            {
-                dataFrom: 'keys',
-                anchor: 'bottom-right',
-                direction: 'column',
-                justify: false,
-                translateX: 120,
-                translateY: 0,
-                itemsSpacing: 2,
-                itemWidth: 100,
-                itemHeight: 20,
-                itemDirection: 'left-to-right',
-                itemOpacity: 0.85,
-                symbolSize: 20,
-                effects: [
-                    {
-                        on: 'hover',
-                        style: {
-                            itemOpacity: 1
-                        }
-                    }
-                ]
-            }
-        ]}
-        role="application"
-        ariaLabel="Nivo bar chart demo"
-        barAriaLabel={e=>e.id+": "+e.formattedValue+" in country: "+e.indexValue}
-    />
-    <ResponsiveLine
-        data={data3}
-        margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
-        xScale={{ type: 'point' }}
-        yScale={{
-            type: 'linear',
-            min: 'auto',
-            max: 'auto',
-            stacked: false,
-            reverse: false
-        }}
-        axisTop={null}
-        axisRight={null}
-        axisBottom={{
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 0,
-            legend: 'transportation',
-            legendOffset: 36,
-            legendPosition: 'middle'
-        }}
-        axisLeft={{
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 0,
-            legend: 'count',
-            legendOffset: -40,
-            legendPosition: 'middle'
-        }}
-        pointSize={10}
-        pointColor={{ theme: 'background' }}
-        pointBorderWidth={2}
-        pointBorderColor={{ from: 'serieColor' }}
-        pointLabelYOffset={-12}
-        useMesh={true}
-        legends={[
-            {
-                anchor: 'bottom-right',
-                direction: 'column',
-                justify: false,
-                translateX: 100,
-                translateY: 0,
-                itemsSpacing: 0,
-                itemDirection: 'left-to-right',
-                itemWidth: 80,
-                itemHeight: 20,
-                itemOpacity: 0.75,
-                symbolSize: 12,
-                symbolShape: 'circle',
-                symbolBorderColor: 'rgba(0, 0, 0, .5)',
-                effects: [
-                    {
-                        on: 'hover',
-                        style: {
-                            itemBackground: 'rgba(0, 0, 0, .03)',
-                            itemOpacity: 1
-                        }
-                    }
-                ]
-            }
-        ]}
-    />
+    <BarChart data={data2}/>
+    <LineChart data={data3}/>
     </>
      
   );
